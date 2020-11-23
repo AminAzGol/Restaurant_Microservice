@@ -1,8 +1,10 @@
 require('dotenv').config()
 const express = require('express')
 const app = express()
+const {runSchemaCreator} = require('./db/schema')
 
 
+/* Parse request JSON body */
 app.use(express.json());
 
 /* Routes */
@@ -27,7 +29,12 @@ app.use(async (err, req, res, next) => {
     }
 });
 
-const port = process.env.LISTEN_PORT
-app.listen(port, () => console.log(`Listening on port ${port}!`))
+/* Create and Alter Schema */
+runSchemaCreator().then(_ =>{
 
-export default app;
+    /* Start the Server */
+    const port = process.env.LISTEN_PORT
+    app.listen(port, () => console.log(`Listening on port ${port}!`))
+})
+
+module.exports = app;

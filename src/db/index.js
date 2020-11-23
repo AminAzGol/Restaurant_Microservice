@@ -30,7 +30,7 @@ function getConnection() {
     })
 }
 
-export class DB {
+ class DB {
 
     transactionConnection;
 
@@ -189,3 +189,5 @@ export class DB {
         return res
     }
 }
+
+module.exports = {DB}

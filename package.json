@@ -4,8 +4,8 @@
   "description": "resturant management microservice of a larger food delivery system",
   "main": "src/app.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node ./src/app.js",
-    "test": "mocha"
+    "dev": "nodemon -r dotenv/config ./src/app.js",
+    "test": "mocha -r dotenv/config"
   },
   "repository": {
     "type": "git",
@@ -26,12 +26,12 @@
     "core-js": "^3.7.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "mysql": "^2.18.1",
     "nodemon": "^2.0.6",
     "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
     "@babel/register": "^7.12.1",
-    "babel-node": "0.0.1-security",
     "mocha": "^8.2.1"
   }
 }

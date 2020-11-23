@@ -1,7 +1,7 @@
 // Import the dependencies for testing
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-import app from '../src/app'
+const app = require('../src/app');
 
 // Configure chai
 chai.use(chaiHttp);
