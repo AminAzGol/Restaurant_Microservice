@@ -13,6 +13,16 @@ module.exports.runSchemaCreator = async function() {
     await addColumnIfNotExists('restaurant', `name`, 'varchar(100) DEFAULT NULL')
     await addColumnIfNotExists('restaurant', `is_open`, 'bool null DEFAULT false')
 
+    /* Menu Item table */
+    await addTableIfNotExists('menu_item')
+    await addColumnIfNotExists('menu_item', 'id', 
+    `int auto_increment,
+	constraint restaurant_pk
+        primary key (id)`)
+    await addColumnIfNotExists('menu_item', 'restaurant_id', `int not null`)
+    await addColumnIfNotExists('menu_item', `name`, 'varchar(100) DEFAULT NULL')
+    await addColumnIfNotExists('menu_item', `amount`, 'int DEFAULT 0')
+    await addColumnIfNotExists('menu_item', `description`, 'varchar(300) DEFAULT null')
 }
 
 async function addColumnIfNotExists(tableName, columnName, columnType) {
