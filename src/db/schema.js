@@ -17,7 +17,7 @@ module.exports.runSchemaCreator = async function() {
     await addTableIfNotExists('menu_item')
     await addColumnIfNotExists('menu_item', 'id', 
     `int auto_increment,
-	constraint restaurant_pk
+	constraint menu_item_pk
         primary key (id)`)
     await addColumnIfNotExists('menu_item', 'restaurant_id', `int not null`)
     await addColumnIfNotExists('menu_item', `name`, 'varchar(100) DEFAULT NULL')

@@ -61,6 +61,20 @@ function getConnection() {
         })
     }
 
+    generateQueryGet(tableName, columns) {
+        let columnsString = ''
+        if (columns === '*' || columns == null) {
+            columnsString = '*'
+        }
+        else {
+           columnsString = columns.join(",")
+        }
+
+        var q = `select ${columnsString} from ${tableName}`
+
+        return q
+
+    }
 
     generateQueryInsertOne(tableName, entry) {
         var keys = Object.keys(entry);

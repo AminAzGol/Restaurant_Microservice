@@ -10,7 +10,7 @@ app.use(express.json());
 /* Routes */
 app.use('/helloworld',(req,res,next) => res.send({msg:"Hello World!"}));
 app.use('/restaurant', require('./routes/restaurant'));
-// app.use('/menu', require('./routes/menu'));
+app.use('/menu', require('./routes/menu'));
 
 
 /* Error response */
