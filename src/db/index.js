@@ -62,9 +62,8 @@ function getConnection() {
     }
 
 
-    generateQueryInsertOne(entry) {
+    generateQueryInsertOne(tableName, entry) {
         var keys = Object.keys(entry);
-        keys.splice(keys.indexOf("name"), 1);
         var keyString = keys.join(",")
 
         var valuesString = keys.map(v => {
@@ -75,15 +74,14 @@ function getConnection() {
         }).join(',')
         valuesString = this.correctQueryNulls(valuesString)
 
-        var q = `insert into ${entry.name}(${keyString}) values(${valuesString})`
+        var q = `insert into ${tableName}(${keyString}) values(${valuesString})`
 
         return q
 
     }
 
-    generateQueryInsertMany(entryArr, variablePairs) {
+    generateQueryInsertMany(tableName, entryArr, variablePairs) {
         var keys = Object.keys(entryArr[0]);
-        keys.splice(keys.indexOf("name"), 1);
         var keyString = keys.join(",")
 
         let variables = "";
@@ -96,7 +94,7 @@ function getConnection() {
 
         valuesString = this.correctQueryNulls(valuesString)
 
-        var q = `insert into ${entryArr[0].name}(${keyString}) values ${valuesString}`
+        var q = `insert into ${tableName}(${keyString}) values ${valuesString}`
 
         return q
     }

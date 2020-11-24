@@ -20,3 +20,17 @@ describe("Hello World", () => {
       });
   });
 });
+
+describe("Restaurant API", () => {
+  it("create", (done) => {
+    chai.request(app)
+      .post('/restaurant/create')
+      .send({name: "myNewRestaurant"})
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.have.keys(["msg"]);
+        console.log(res.body.msg)
+        done();
+      });
+  });
+});
