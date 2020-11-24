@@ -94,6 +94,36 @@ function getConnection() {
 
     }
 
+    generateQueryUpdateOne(tableName, entry , where) {
+        var keys = Object.keys(entry);
+
+        var newColumns = keys.map(v => {
+            var type = typeof entry[v]
+            if (type === "object")
+                return `'${JSON.stringify(entry[v])}'`
+            return `${v}=${entry[v]}`
+        }).join(',')
+
+        // newColumns = this.correctQueryNulls(valuesString)
+
+        var q = `update ${tableName} set ${newColumns}`
+
+        if (where) {
+            let whereKeys = Object.keys(where);
+            let whereCluase = whereKeys.map(v => {
+                var type = typeof where[v]
+                if (type === "object")
+                    return `'${JSON.stringify(where[v])}'`
+                return `${v}=${where[v]}`
+            }).join(',')
+
+            q = `${q} where ${whereCluase}`
+        }
+
+        return q
+
+    }
+
     generateQueryInsertMany(tableName, entryArr, variablePairs) {
         var keys = Object.keys(entryArr[0]);
         var keyString = keys.join(",")
