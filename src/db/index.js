@@ -61,7 +61,7 @@ function getConnection() {
         })
     }
 
-    generateQueryGet(tableName, columns) {
+    generateQueryGet(tableName, columns , where) {
         let columnsString = ''
         if (columns === '*' || columns == null) {
             columnsString = '*'
@@ -71,6 +71,18 @@ function getConnection() {
         }
 
         var q = `select ${columnsString} from ${tableName}`
+
+        if (where) {
+            let whereKeys = Object.keys(where);
+            let whereCluase = whereKeys.map(v => {
+                var type = typeof where[v]
+                if (type === "object")
+                    return `'${JSON.stringify(where[v])}'`
+                return `${v}=${where[v]}`
+            }).join(',')
+
+            q = `${q} where ${whereCluase}`
+        }
 
         return q
 
@@ -124,6 +136,22 @@ function getConnection() {
 
     }
 
+    generateQueryDeleteOne(tableName, where) {
+        var keys = Object.keys(where);
+
+        var whereClause = keys.map(v => {
+            var type = typeof where[v]
+            if (type === "object")
+                return `'${JSON.stringify(where[v])}'`
+            return `${v}=${where[v]}`
+        }).join(',')
+
+
+        var q = `delete from ${tableName} where ${whereClause}`
+
+        return q
+
+    }
     generateQueryInsertMany(tableName, entryArr, variablePairs) {
         var keys = Object.keys(entryArr[0]);
         var keyString = keys.join(",")

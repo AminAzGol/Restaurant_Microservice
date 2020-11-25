@@ -24,7 +24,7 @@ router.post('/menu' ,async (req, res, next) => {
 })
 
 // update menu
-router.post('/menu/:menu_id' ,async (req, res, next) => {
+router.put('/menu/:menu_id' ,async (req, res, next) => {
     try {
         const body = req.body
         const menu_id = req.params.menu_id
@@ -35,9 +35,35 @@ router.post('/menu/:menu_id' ,async (req, res, next) => {
         } catch (e) {
             throw new ErrorWCode(400, e)
         }
-        const query = db.generateQueryInsertOne('menu_item', body)
-        const result = db.execQuery(query)
-        res.status(200).json({msg: "new menu_item added"})
+        let queryGet = db.generateQueryGet("menu_item","*",{id : menu_id})
+        let getResult = db.execQuery(queryGet)
+        if (condition) {
+            const query = db.generateQueryUpdateOne('menu_item', body ,{id : menu_id})
+            const result = db.execQuery(query)
+            res.status(200).json({msg: "new menu_item added"})
+        } else {
+            res.status(404).json({msg : "item not found"})
+        }
+    } catch (e) {
+        next(e);
+    }
+})
+
+router.delete('/menu/:menu_id' ,async (req, res, next) => {
+    try {
+        //TODO: shoud get restaurant id then use it in WHERE clause of delete statement
+        
+        const menu_id = req.params.menu_id
+        let queryGet = db.generateQueryGet("menu_item","*",{id : menu_id})
+        let getResult = db.execQuery(queryGet)
+        if (getResult) {
+            const query = db.generateQueryDeleteOne('menu_item', {id : menu_id})
+            const result = db.execQuery(query)    
+            res.status(200).json({msg: "menu_item deleted"})
+        }else {
+            res.status(404).json({msg : "item not found"})
+        }
+        
     } catch (e) {
         next(e);
     }
