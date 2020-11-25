@@ -5,7 +5,7 @@ const { ErrorWCode } = require('../utils/errors')
 const { DB } = require('../db')
 const db = new DB()
 // create menu_item
-router.post('/menu' ,async (req, res, next) => {
+router.post('/create' ,async (req, res, next) => {
     try {
         const body = req.body
         try {
@@ -71,7 +71,7 @@ router.delete('/menu/:menu_id' ,async (req, res, next) => {
 
 
 // get all menu_item
-router.get('/menu',async (req , resp , next) =>{
+router.get('/all',async (req , resp , next) =>{
     try {
         //TODO: should get restaurant id from req .. that set using login
 

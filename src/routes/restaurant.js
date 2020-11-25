@@ -22,4 +22,22 @@ router.post('/create' ,async (req, res, next) => {
     }
 })
 
+router.post('/changestate' ,async (req, res, next) => {
+    try {
+        const body = req.body
+        try {
+            Joi.assert(body,Joi.object({
+                is_open: Joi.bool()
+            }))
+        } catch (e) {
+            throw new ErrorWCode(400, e)
+        }
+        const query = db.generateQueryUpdateOne('restaurant', body) //TODO: should has where clause for restaurant id
+        const result = db.execQuery(query)
+        res.status(200).json({msg: "restaurant state changed"})
+    } catch (e) {
+        next(e);
+    }
+})
+
 module.exports = router
