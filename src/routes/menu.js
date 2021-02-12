@@ -8,15 +8,15 @@ const db = new DB()
 router.post('/create' ,async (req, res, next) => {
     try {
         const body = req.body
-        try {
-            Joi.assert(body,Joi.object({
-                name: Joi.string()
-            }))
-        } catch (e) {
-            throw new ErrorWCode(400, e)
-        }
+        // try {
+        //     Joi.assert(body,Joi.object({
+        //         name: Joi.string()
+        //     }))
+        // } catch (e) {
+        //     throw new ErrorWCode(400, e)
+        // }
         const query = db.generateQueryInsertOne('menu_item', body)
-        const result = db.execQuery(query)
+        const result = await db.execQuery(query)
         res.status(200).json({msg: "new menu_item added"})
     } catch (e) {
         next(e);
@@ -39,7 +39,7 @@ router.put('/menu/:menu_id' ,async (req, res, next) => {
         let getResult = db.execQuery(queryGet)
         if (condition) {
             const query = db.generateQueryUpdateOne('menu_item', body ,{id : menu_id})
-            const result = db.execQuery(query)
+            const result = await db.execQuery(query)
             res.status(200).json({msg: "new menu_item added"})
         } else {
             res.status(404).json({msg : "item not found"})
@@ -58,7 +58,7 @@ router.delete('/menu/:menu_id' ,async (req, res, next) => {
         let getResult = db.execQuery(queryGet)
         if (getResult) {
             const query = db.generateQueryDeleteOne('menu_item', {id : menu_id})
-            const result = db.execQuery(query)    
+            const result = await db.execQuery(query)    
             res.status(200).json({msg: "menu_item deleted"})
         }else {
             res.status(404).json({msg : "item not found"})
@@ -76,8 +76,8 @@ router.get('/all',async (req , resp , next) =>{
         //TODO: should get restaurant id from req .. that set using login
 
         let query = db.generateQueryGet('menu_item',['name','amount','description'])
-        let result = db.execQuery(query)
-        res.status(200).json({msg : "menu fetched from database successfully :D", data : result})
+        let result = await db.execQuery(query)
+        resp.status(200).json({msg : "menu fetched from database successfully :D", data : result})
     } catch (error) {
         next(error)
     }

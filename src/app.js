@@ -11,6 +11,9 @@ app.use(express.json());
 app.use('/helloworld',(req,res,next) => res.send({msg:"Hello World!"}));
 app.use('/restaurant', require('./routes/restaurant'));
 app.use('/menu', require('./routes/menu'));
+app.use('/auth', require('./routes/auth'));
+app.use('/respanel', require('./routes/respanel'));
+app.use('/custpanel', require('./routes/custpanel'));
 
 
 /* Error response */
